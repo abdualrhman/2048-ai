@@ -1,8 +1,9 @@
 import random
-
+score = 0
 boardsize =4
 board=[]
 def display():
+    print("score: ", score)
     #Finding out which value is the largest
     largest = board[0][0]
     for row in board:
@@ -26,6 +27,7 @@ def display():
 
 
 def mergeonerowleft(row): #funtion to merge one row left
+    global score
     for j in range(boardsize - 1): #repeat the moving left operation 3 times
         for i in range (boardsize - 1, 0, -1): #moving everything as far left as possible
             if row[i-1] ==0:
@@ -35,6 +37,7 @@ def mergeonerowleft(row): #funtion to merge one row left
     for i in range (boardsize - 1):
         if row[i] == row[i+1]:
             row[i] *=2
+            score =  score +row[i]
             row[i+1] = 0
     #move evrything to the left again
     for i in range (boardsize-1,0,-1):
