@@ -7,8 +7,8 @@ def getBestMove(board, depth):
     score = min_value
     bestMove = 0
     for moveNum in range(4):
-        newBoard = board
-        nextLevel = move(newBoard, moveNum)
+        newBoard = deepcopy(board)
+        nextLevel = move(deepcopy(newBoard), moveNum)
         if(newBoard == nextLevel):
             continue
 
