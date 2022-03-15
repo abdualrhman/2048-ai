@@ -1,7 +1,12 @@
+from copy import copy
 import random
+# from ai import expectiMax
 score = 0
 boardsize =4
 board=[]
+def getScore ():
+    return score
+
 def display():
     print("score: ", score)
     #Finding out which value is the largest
@@ -25,6 +30,8 @@ def display():
     print()
 
 
+def insertCell (index, val):
+    board[index[0]][index[1]] = val
 
 def mergeonerowleft(row): #funtion to merge one row left
     global score
@@ -50,6 +57,14 @@ def mergeboardleft(currentboard):
     for i in range (boardsize):
         currentboard[i] = mergeonerowleft(currentboard[i])
     return currentboard
+
+def getAvailableCells(board):
+    availableCells=[]
+    for i, _ in enumerate(board):
+        for j, _ in enumerate(board[i]):
+            if board[i][j] == 0:
+               availableCells.append([i, j])
+    return  availableCells
 
 #function to reverse the order of one row
 def reverse(row):
@@ -91,7 +106,7 @@ def mergeboarddown(currentboard):
 
 #function to initialize a 2 or 4 value on the starting board
 def picknewvalue():
-    if random.randint(1,8) ==1:
+    if random.randint(1,9) ==1:
         return 4
     else:
         return 2
@@ -114,7 +129,6 @@ def won():
     return False
 
 
-
 board= []
 for i in range(boardsize):
     row = []
@@ -131,32 +145,18 @@ while numbersNeeded > 0:
     if board[rowNum][colNum] == 0:
         board[rowNum][colNum] = picknewvalue()
         numbersNeeded -= 1
-print("welcome to 2048)")
-display()      
+# print("welcome to 2048)")
+# display()      
 
-gameover = False
-while not gameover:
-    move = input("pick a direction: ")
-    validinput = True
+def move(newBoard, num):
+    if num == 0:
+        return mergeboardup(newBoard) 
+    elif num == 1:
+        return mergeboardright(newBoard) 
+    elif num == 2:
+        return mergeboarddown(newBoard) 
+    elif num == 3:
+        return mergeboardleft(newBoard) 
 
-    if move == 'd':
-        board = mergeboardright(board)
-    elif move == 'w':
-        board = mergeboardup(board)
-    elif move == 'a':
-        board = mergeboardleft(board)
-    elif move == 's':
-        board = mergeboarddown(board)
-    else:
-        validinput = False
-    if not validinput:
-        print ("try again")
-    else:
-        if won():
-            display()
-            print("congrats")
-            gameover = True
-        else:
-            addnewvalue()
-            display()
+
 
