@@ -58,7 +58,7 @@ print("welcome to 2048)")
 def automate (board):
     gameover = False
     while not gameover:
-        board = move(board, getBestMove(board, 4))
+        board = move(board, getBestMove(board, 5))
         if won():
             display()
             print("congrats")

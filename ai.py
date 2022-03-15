@@ -7,8 +7,8 @@ def getBestMove(board, depth):
     score = min_value
     bestMove = 0
     for moveNum in range(4):
-        newBoard = deepcopy(board)
-        nextLevel = move(deepcopy(newBoard), moveNum)
+        newBoard = board
+        nextLevel = move(newBoard, moveNum)
         if(newBoard == nextLevel):
             continue
 
@@ -65,8 +65,8 @@ def expectiMax(board, depth, agent):
 
 
 def calculateScore(board):
-    priority =     [[ 8,  6,  4,  1],
-                    [ 6,  4,  1,  0],
+    priority =     [[ 14,  7,  4,  1],
+                    [ 7,  4,  1,  0],
                     [ 4,  1,  0, -1],
                     [ 1,  0, -1, -2]]
     # priority =     [[ 16,  15,  14,  13],
