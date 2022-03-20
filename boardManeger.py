@@ -3,7 +3,7 @@ from ai import *
 
 
 def display():
-    print("score: ", getScore())
+    print("Score: ", getScore())
     #Finding out which value is the largest
     largest = board[0][0]
     for row in board:
@@ -25,40 +25,17 @@ def display():
     print()
 
 print("welcome to 2048)")
-# display()
-# gameover = False
-# while not gameover:
-#     print(getBestMove(deepcopy(board), 4))
-    
-#     # move = input("pick a direction: ")
-#     board = move(deepcopy(board), getBestMove(deepcopy(board), 4))
-#     validinput = True
-
-#     if move == 'd':
-#         board = mergeboardright(board)
-#     elif move == 'w':
-#         board = mergeboardup(board)
-#     elif move == 'a':
-#         board = mergeboardleft(board)
-#     elif move == 's':
-#         board = mergeboarddown(board)
-#     else:
-#         validinput = False
-#     if not validinput:
-#         print ("try again")
-#     else:
-#         if won():
-#             display()
-#             print("congrats")
-#             gameover = True
-#         else:
-#             addnewvalue()
-#             display()
 
 def automate (board):
     gameover = False
     while not gameover:
-        board = move(board, getBestMove(board, 5))
+        availableCells =getAvailableCells(board)
+        depth = 0
+        if len(availableCells) > 5 :
+            depth = 5
+        else:
+            depth = 6
+        board = move(board, getBestMove(board, depth), "real")
         if won():
             display()
             print("congrats")
@@ -66,5 +43,5 @@ def automate (board):
         else:
             addnewvalue()
             display()
-        display()
+        #display()
 automate(board)

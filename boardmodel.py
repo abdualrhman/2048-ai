@@ -4,36 +4,37 @@ import random
 score = 0
 boardsize =4
 board=[]
+
 def getScore ():
     return score
 
-def display():
-    print("score: ", score)
-    #Finding out which value is the largest
-    largest = board[0][0]
-    for row in board:
-        for element in row:
-            if element > largest:
-                largest = element
+# def display():
+#     print("score: ", score)
+#     #Finding out which value is the largest
+#     largest = board[0][0]
+#     for row in board:
+#         for element in row:
+#             if element > largest:
+#                 largest = element
     
-    #Setting the max number of spaces needed to the length of the largest value
-    numspaces = len(str(largest))
+#     #Setting the max number of spaces needed to the length of the largest value
+#     numspaces = len(str(largest))
 
-    for row in board: #display a vertical line in front and in between each number for clarity
-        currentrow = "|"
-        for element in row:
-            if element == 0:
-                currentrow +=" "*numspaces + "|" #fitting the empty spaces to the largest number's number of spaces needed
-            else:
-                    currentrow +=(" "*(numspaces - len(str(element)))) + str(element) + "|" #fitting the numbered spaces to the largest number's number of spaces needed
-        print(currentrow)
-    print()
+#     for row in board: #display a vertical line in front and in between each number for clarity
+#         currentrow = "|"
+#         for element in row:
+#             if element == 0:
+#                 currentrow +=" "*numspaces + "|" #fitting the empty spaces to the largest number's number of spaces needed
+#             else:
+#                     currentrow +=(" "*(numspaces - len(str(element)))) + str(element) + "|" #fitting the numbered spaces to the largest number's number of spaces needed
+#         print(currentrow)
+#     print()
 
 
 def insertCell (index, val):
     board[index[0]][index[1]] = val
 
-def mergeonerowleft(row): #funtion to merge one row left
+def mergeonerowleft(row, state): #funtion to merge one row left
     global score
     for j in range(boardsize - 1): #repeat the moving left operation 3 times
         for i in range (boardsize - 1, 0, -1): #moving everything as far left as possible
@@ -44,7 +45,8 @@ def mergeonerowleft(row): #funtion to merge one row left
     for i in range (boardsize - 1):
         if row[i] == row[i+1]:
             row[i] *=2
-            score =  score +row[i]
+            if state == "real":
+                score =  score +row[i]
             row[i+1] = 0
     #move evrything to the left again
     for i in range (boardsize-1,0,-1):
@@ -53,9 +55,9 @@ def mergeonerowleft(row): #funtion to merge one row left
             row[i] = 0
         return row
 #function to merge the whole board left
-def mergeboardleft(currentboard):
+def mergeboardleft(currentboard, state):
     for i in range (boardsize):
-        currentboard[i] = mergeonerowleft(currentboard[i])
+        currentboard[i] = mergeonerowleft(currentboard[i], state)
     return currentboard
 
 def getAvailableCells(board):
@@ -73,10 +75,10 @@ def reverse(row):
         new.append(row[i])
     return new
 
-def mergeboardright(currentboard): #funtion to merge the whole board right
+def mergeboardright(currentboard, state): #funtion to merge the whole board right
     for i in range(boardsize):
         currentboard[i] = reverse(currentboard[i])
-        currentboard[i] = mergeonerowleft(currentboard[i])
+        currentboard[i] = mergeonerowleft(currentboard[i], state)
         currentboard[i] = reverse(currentboard[i])
     return currentboard
 
@@ -91,15 +93,15 @@ def transpose(currentboard):
                 currentboard[i][j] = temp
     return currentboard
 
-def mergeboardup(currentboard):
+def mergeboardup(currentboard, state):
     currentboard = transpose(currentboard)
-    currentboard= mergeboardleft(currentboard)
+    currentboard= mergeboardleft(currentboard, state)
     currentboard = transpose(currentboard)  
     return currentboard
 
-def mergeboarddown(currentboard):
+def mergeboarddown(currentboard, state):
     currentboard = transpose(currentboard)
-    currentboard = mergeboardright(currentboard)
+    currentboard = mergeboardright(currentboard, state)
     currentboard =transpose(currentboard)
     return currentboard
     
@@ -148,15 +150,15 @@ while numbersNeeded > 0:
 # print("welcome to 2048)")
 # display()      
 
-def move(newBoard, num):
+def move(newBoard, num, state):
     if num == 0:
-        return mergeboardup(newBoard) 
+        return mergeboardup(newBoard, state) 
     elif num == 1:
-        return mergeboardright(newBoard) 
+        return mergeboardright(newBoard, state) 
     elif num == 2:
-        return mergeboarddown(newBoard) 
+        return mergeboarddown(newBoard, state) 
     elif num == 3:
-        return mergeboardleft(newBoard) 
+        return mergeboardleft(newBoard, state) 
 
 
 

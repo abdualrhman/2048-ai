@@ -1,33 +1,35 @@
 from copy import deepcopy
 from boardmodel import  getAvailableCells, move
 
-min_value = 0.1
+min_value = 0.1 #setting the value to 0.1 instead of 0 in order to be able to notice whether or not the 
+#new score is different from the min score later
 
-def getBestMove(board, depth):
-    score = min_value
+
+def getBestMove(board, depth): # making a copy of the board as the next move, if it doesn't change the board continue or else apply the expectimax func to it
+    MoveScore = min_value
     bestMove = 0
     for moveNum in range(4):
         newBoard = deepcopy(board)
-        nextLevel = move(deepcopy(newBoard), moveNum)
+        nextLevel = move(deepcopy(newBoard), moveNum, "belive")
         if(newBoard == nextLevel):
             continue
-
+        #call up the expectimax function to decide whether the next move is best in case of change to the board
         newScore = expectiMax(deepcopy(nextLevel), depth - 1, "board")
-        if newScore > score :
+        if newScore > MoveScore :
             bestMove = moveNum
-            score = newScore
-    print("newScore", bestMove, "move: ", bestMove)
+            MoveScore = newScore
+    print("newMoveScore: ", MoveScore, "move: ", bestMove)
     return bestMove
 
-def expectiMax(board, depth, agent):
+def expectiMax(board, depth, agent): 
 
     if depth == 0: 
         return calculateScore(board)
     elif agent == "player" :
-        playerScore = min_value
+        playerScore = min_value        
         for moveNum in range(4):
             newBoard = deepcopy(board)
-            nextLevel = move(deepcopy(newBoard), moveNum)
+            nextLevel = move(deepcopy(newBoard), moveNum, "belive")
             if nextLevel == newBoard:
                 continue
 
@@ -41,7 +43,7 @@ def expectiMax(board, depth, agent):
         boardScore = 0
         availableCells = getAvailableCells(board)
         for cellIndex in availableCells:
-            newBoard = deepcopy(board)
+            newBoard = deepcopy(board) 
             newBoard[cellIndex[0]][cellIndex[1]] = 2
             newScore = expectiMax(deepcopy(newBoard), depth-1, "player")
             if not newScore == min_value:
@@ -58,21 +60,14 @@ def expectiMax(board, depth, agent):
             # boardScore = boardScore/len(availableCells)
         return boardScore
 
-            
-            
-    
-
-
+#heuristics function rewarding the agent to keep the highest number in a corner and adding penalty if it doesn't
 
 def calculateScore(board):
-    priority =     [[ 14,  7,  4,  1],
-                    [ 7,  4,  1,  0],
-                    [ 4,  1,  0, -1],
-                    [ 1,  0, -1, -2]]
-    # priority =     [[ 16,  15,  14,  13],
-    #                 [ 9, 10, 11,  12],
-    #                 [ 8,  7,  6, 5],
-    #                 [ 1, 2, 3 ,4]]
+    priority =     [[ 14,  9,  8,  4],
+                    [ 10,  8,  5,  4],
+                    [ 2,  1,  1, 0],
+                    [ 0,  0, -1, -2]]
+ 
 
     gameScore = 0
     
