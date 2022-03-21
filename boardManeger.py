@@ -43,5 +43,4 @@ def automate (board):
         else:
             addnewvalue()
             display()
-        #display()
 automate(board)

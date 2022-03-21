@@ -8,29 +8,6 @@ board=[]
 def getScore ():
     return score
 
-# def display():
-#     print("score: ", score)
-#     #Finding out which value is the largest
-#     largest = board[0][0]
-#     for row in board:
-#         for element in row:
-#             if element > largest:
-#                 largest = element
-    
-#     #Setting the max number of spaces needed to the length of the largest value
-#     numspaces = len(str(largest))
-
-#     for row in board: #display a vertical line in front and in between each number for clarity
-#         currentrow = "|"
-#         for element in row:
-#             if element == 0:
-#                 currentrow +=" "*numspaces + "|" #fitting the empty spaces to the largest number's number of spaces needed
-#             else:
-#                     currentrow +=(" "*(numspaces - len(str(element)))) + str(element) + "|" #fitting the numbered spaces to the largest number's number of spaces needed
-#         print(currentrow)
-#     print()
-
-
 def insertCell (index, val):
     board[index[0]][index[1]] = val
 
